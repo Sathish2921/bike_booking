@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import BookingModal from "@/components/bikes/bike-model"; 
 import { getFromLocalStorage, saveToLocalStorage } from "@/components/ui/encryption";
+import { useRouter } from "next/navigation";
 // Types
 interface BikeEngine {
   cc: number;
@@ -572,7 +573,7 @@ const BikeListingPage: React.FC = () => {
   const [selectedBike, setSelectedBike] = useState<BikeData | null>(null);
   const [showBookingModal, setShowBookingModal] = useState<boolean>(false);
   
-  
+const router = useRouter();
   
   const [filters, setFilters] = useState<Filters>({
     priceRange: [500, 3500],
@@ -799,7 +800,8 @@ const BikeListingPage: React.FC = () => {
                 </div>
               )}
               <button 
-                onClick={() => openBookingModal(bike)}
+                // onClick={() => openBookingModal(bike)}
+                onClick={() => (router.push(`/bikeDetail?id=${bike._id}`))}
                 className="bg-gradient-to-r from-[#AC9456] to-[#D4B76A] text-white px-6 py-2 rounded-lg font-medium transition-colors"
               >
                 Book Now
@@ -1155,7 +1157,8 @@ const BikeListingPage: React.FC = () => {
         </div>
       )}
        {/* Booking Modal */}
-      <BookingModal
+       {console.log("selected",selectedBike)}
+          <BookingModal
         bike={selectedBike}
         isOpen={showBookingModal}
         onClose={closeBookingModal}
